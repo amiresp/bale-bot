@@ -1,0 +1,26 @@
+{
+    "name": "bale-bot",
+    "version": "1.0.0",
+    "description": "A TypeScript SDK for Bale.ai bots",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "npm run build",
+        "test": "npm run build && node dist/test/simple.test.js"
+    },
+    "keywords": [
+        "bale",
+        "bot",
+        "sdk",
+        "telegram-like",
+        "typescript"
+    ],
+    "author": "َAmir Spalani",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^20.19.4",
+        "axios": "^1.10.0",
+        "typescript": "^5.8.3"
+    }
+}

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es2018", // یا "es2020" برای امکانات جدیدتر
+    "module": "commonjs", // استاندارد برای پکیج‌های Node.js
+    "declaration": true, // **بسیار مهم**: فایل‌های .d.ts (تعاریف تایپ) رو می‌سازه
+    "outDir": "./dist", // فایل‌های کامپایل شده (JS و .d.ts) در این پوشه قرار می‌گیرن
+    "strict": true, // تمام بررسی‌های سختگیرانه تایپ رو فعال می‌کنه
+    "esModuleInterop": true, // کمک می‌کنه تا ماژول‌های CommonJS (مثل axios) به درستی import بشن
+    "skipLibCheck": true, // بررسی تایپ فایل‌های declaration از node_modules رو رد می‌کنه
+    "forceConsistentCasingInFileNames": true // رعایت یکسان بودن حروف بزرگ و کوچک در نام فایل‌ها
+  },
+  "include": [
+    "src/**/*.ts",
+    "test/**/*" // فایل‌های .ts رو در پوشه src برای کامپایل مشخص می‌کنه
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
