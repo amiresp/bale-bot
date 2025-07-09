@@ -1,5 +1,5 @@
 {
-    "name": "bale-bot",
+    "name": "bale-bot-ts",
     "version": "1.0.0",
     "description": "A TypeScript SDK for Bale.ai bots",
     "main": "dist/index.js",
