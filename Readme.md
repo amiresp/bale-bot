@@ -7,7 +7,7 @@ Bale Bot is a simple SDK for interacting with the Bale messaging platform. This 
 برای استفاده از این پکیج، ابتدا آن را نصب کنید:
 
 ```bash
-npm install bale-bot
+npm i bale-bot-ts
 ```
 
 سپس می‌توانید از آن در پروژه خود استفاده کنید:
