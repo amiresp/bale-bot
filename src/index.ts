@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // Import FormData for Node.js multipart/form-data
+import EventEmitter from 'events';
 
 // --- Core API Interfaces ---
 
@@ -367,15 +368,19 @@ interface Update {
 
 // --- Main BaleBotClient Class ---
 
-export class BaleBotClient {
+export class BaleBotClient extends EventEmitter {
     private api: AxiosInstance;
     private readonly baseURL: string = 'https://tapi.bale.ai/'; // Base URL for Bale Bot API
+    private pollingInterval: ReturnType<typeof setInterval> | null = null;
+    private lastUpdateId: number = 0;
 
     /**
      * Creates a new BaleBotClient instance.
      * @param token - The unique authentication token for your bot.
-     */
+    */
+
     constructor(private token: string) {
+        super();
         if (!token) {
             throw new Error('Bale Bot Token is required.');
         }
@@ -425,6 +430,38 @@ export class BaleBotClient {
         } catch (error: any) {
             console.error(`Error in ${method}:`, error.response?.data || error.message);
             throw new Error(`Failed to call ${method}: ${error.response?.data?.description || error.message}`);
+        }
+    }
+
+    public startPolling(interval: number = 3000) {
+        if (this.pollingInterval) return; // جلوگیری از شروع مجدد
+        this.pollingInterval = setInterval(async () => {
+            try {
+                const response = await this.api.get<BotResponse<Update[]>>(`getUpdates`, {
+                    params: {
+                        offset: this.lastUpdateId + 1,
+                        timeout: 0,
+                    },
+                });
+
+                if (response.data.ok && Array.isArray(response.data.result)) {
+                    for (const update of response.data.result) {
+                        this.lastUpdateId = update.update_id;
+                        if (update.message) {
+                            this.emit('message', update.message);
+                        }
+                    }
+                }
+            } catch (error: any) {
+                console.error('[Polling error]', error.message);
+            }
+        }, interval);
+    }
+
+    public stopPolling() {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
+            this.pollingInterval = null;
         }
     }
 

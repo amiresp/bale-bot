@@ -1,9 +1,9 @@
 import { BaleBotClient } from '../src/index';
 
 // توکن ربات بله رو از متغیرهای محیطی بخون
-const BOT_TOKEN = 'BOT_TOKEN';
+const BOT_TOKEN = 'YOUTR_BOT_TOKEN';
 // شناسه چتی که می‌خوای پیام بهش بفرستی رو از متغیرهای محیطی بخون
-const CHAT_ID = 'YOUT_CHATID';
+const CHAT_ID = 'ADD_YOUR_CHAT_ID_HERE';
 
 async function runTest() {
     console.log('--- شروع تست اتصال و ارسال پیام ---');
@@ -31,7 +31,7 @@ async function runTest() {
 
     try {
         console.log('\nدر حال اجرای متد sendMessage...');
-        const messageText = `تست پیام از پکیج Bale Bot SDK در تاریخ: ${new Date().toLocaleString('fa-IR')}`;
+        const messageText = `تست پیام از پکیج Bale Bot SDK در تاریخ: ${new Date().toLocaleString('fa-IR')} چت ای دی شما : ${CHAT_ID}`;
         const sendMessageResponse = await client.sendMessage({
             chat_id: CHAT_ID,
             text: messageText
@@ -46,6 +46,23 @@ async function runTest() {
     } catch (error: any) {
         console.error('❌ خطایی در فراخوانی sendMessage رخ داد:', error.message);
     }
+
+
+    try {
+        client.on('message', (message) => {
+            console.log(message);
+            const sendMessageResponse = client.sendMessage({
+                chat_id: CHAT_ID,
+                text: `سلام ${message.from.first_name} عزیز! پیام شما دریافت شد: ${message.text} ${message.from.id}`
+            });
+        })
+
+        client.startPolling(3000); // هر ۳ ثانیه
+    } catch (error) {
+        console.log('Err', error);
+    }
+
+    setInterval(() => { }, 5000);
 
     console.log('\n--- پایان تست اتصال و ارسال پیام ---');
 }

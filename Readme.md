@@ -43,6 +43,20 @@ if (meResponse.ok) {
 }
 ```
 
+### دریافت پیام ها
+```typescript
+client.on('message', (message) => {
+    console.log(message);
+    const sendMessageResponse = client.sendMessage({
+        chat_id: CHAT_ID,
+        text: `سلام ${message.from.first_name} عزیز! پیام شما دریافت شد: ${message.text} ${message.from.id}`
+    });
+})
+
+// برای شروع دریافت پیام ها اجباریست
+client.startPolling(3000);
+```
+
 ### ارسال پیام متنی
 برای ارسال یک پیام متنی به یک چت خاص، از متد sendMessage استفاده کنید:
 
