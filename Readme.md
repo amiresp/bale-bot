@@ -14,6 +14,16 @@ npm i bale-bot-ts
 
 ```typescript
 import { BaleBotClient } from 'bale-bot-ts';
+```
+
+یا برای استفاده در پروژه های js
+
+```javascript
+const BaleBotClient = require('bale-bot-ts').BaleBotClient;
+```
+
+
+```typescript
 
 // توکن ربات بله را از متغیرهای محیطی بخوانید
 const BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
